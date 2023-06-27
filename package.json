@@ -1,0 +1,24 @@
+{
+  "name": "pmo",
+  "version": "1.0.0",
+  "description": "TUTORIAL ========",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "webpack"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^5.3.0",
+    "bootstrap-icons": "^1.10.5",
+    "chart.js": "^3.9.1",
+    "flatpickr": "^4.6.13",
+    "js-cookie": "^3.0.5"
+  },
+  "devDependencies": {
+    "copy-webpack-plugin": "^11.0.0",
+    "webpack": "^5.87.0",
+    "webpack-cli": "^5.1.4"
+  }
+}

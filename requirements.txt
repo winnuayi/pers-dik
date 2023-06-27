@@ -1,0 +1,7 @@
+black==23.3.0
+black[d]
+django==4.2.2
+ipython==8.14.0
+pandas==2.0.2
+psycopg2==2.9.6
+xlrd==2.0.1

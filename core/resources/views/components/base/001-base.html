@@ -1,0 +1,74 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Project Management Office</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="shortcut icon" href="{% static 'core/img/favicon/favicon.ico' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'core/vendors/bootstrap-icons/bootstrap-icons.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'core/vendors/bootstrap/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'core/vendors/flatpickr/flatpickr.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'core/vendors/flatpickr/plugins/monthSelect/style.css' %}">
+
+    <style type="text/css">
+      @media(min-width: 576px) {
+        .sandwich-btn {
+          display: none;
+        }
+      }
+    </style>
+
+    {% block css %}{% endblock %}
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-sm sticky-top navbar-light bg-light py-0" style="border-bottom: 1px solid #eaeaea">
+      <div class="container">
+        <a class="navbar-brand" href="#">PMO</a>
+
+        <button class="btn btn-lg sandwich-btn" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <i class="bi bi-list"></i>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link {{ home_active }}" aria-current="page" href="#">Home</a>
+            </li>
+            {% if request.user.is_staff %}
+              <li class="nav-item dropdown">
+                <a id="performance-dropdown-menu" class="nav-link dropdown-toggle {{ performance_active }}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Report</a>
+                <ul class="dropdown-menu" aria-labelledby="performance-dropdown-menu">
+                  <li>
+                    <a class="dropdown-item {{ insight_active }}" href="#">Insight</a>
+                  </li>
+                </ul>
+              </li>
+            {% endif %}
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                {{ request.user.fullname|default:"User" }}
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="{% url 'account:change-password' %}">Change Password</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="{% url 'account:logout' %}">Logout</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    {% block content %}{% endblock %}
+
+    <script type="text/javascript" src="{% static 'core/vendors/bootstrap/bootstrap.bundle.min.js' %}" ></script>
+    <script type="text/javascript" src="{% static 'core/vendors/chart.js/chart.min.js' %}" ></script>
+
+    {% block javascript %}{% endblock %}
+  </body>
+</html>

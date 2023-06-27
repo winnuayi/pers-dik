@@ -1,0 +1,74 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Ciheul Technologies</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link href="{% static 'core/vendors/bootstrap/bootstrap.min.css' %}" rel="stylesheet">
+
+    <style type="text/css">
+      #login-form {
+        /*border: 1px solid lightgrey;*/
+        box-shadow: 1px 1px 8px #c5c5c5;
+        padding: 25px;
+      }
+
+      .form-label {
+        font-size: 14px;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h2 class="text-center mt-5 mb-5">PMO</h2>
+
+      <div class="row">
+        <div class="col-12 col-lg-3"></div>
+        <div class="col-12 col-lg-6">
+          <form id="login-form" method="post" class="mb-4">
+            <h3>Sign in</h3>
+            <p>Keep rockin' and have fun!</p>
+            {% if error_message %}
+            <div class="alert alert-danger" role="alert">
+              {{ error_message }}
+            </div>
+            {% endif %}
+
+            {% csrf_token %}
+            <div class="mb-3">
+              <label class="form-label" for="email">Email</label>
+              <input type="text" class="form-control" name="username" id="email" aria-describedby="emailHelp">
+              {% if errors.nrp %}
+              <small>Harus diisi</small>
+              {% endif %}
+            </div>
+
+            <div class="mb-4">
+              <label class="form-label" for="password">Password</label>
+              <input type="password" class="form-control" name="password" id="password">
+              {% if errors.password %}
+              <small>Harus diisi</small>
+              {% endif %}
+            </div>
+
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary btn-dark">Sign in</button>
+            </div>
+          </form>
+
+          <div class="text-center">
+            New to PMO? Ask admin.
+          </div>
+        </div>
+        <div class="col-12 col-lg-3"></div>
+      </div>
+    </div>
+    <script src="{% static 'core/vendors/bootstrap/bootstrap.bundle.min.js' %}"></script>
+  </body>
+</html>

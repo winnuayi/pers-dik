@@ -1,0 +1,13 @@
+*.pyc
+db.sqlite3
+package-lock.json
+/account/migrations/
+/account/static/
+/core/config.py
+/env/
+/node_modules/
+/pendidikan/migrations/
+/pendidikan/samples/dik-original.xls
+/pendidikan/samples/dik-v2.xls
+/pendidikan/static/
+/static/
