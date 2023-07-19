@@ -2,19 +2,19 @@ from django.db import models
 
 
 class Pangkat(models.Model):
-    nama = models.CharField(max_length=20)
+    nama = models.CharField(max_length=20, unique=True)
 
 
 class Korps(models.Model):
-    nama = models.CharField(max_length=5)
+    nama = models.CharField(max_length=10, unique=True)
 
 
 class Jabatan(models.Model):
-    nama = models.CharField(max_length=200)
+    nama = models.CharField(max_length=200, unique=True)
 
 
-class SumberPA(models.Model):
-    nama = models.CharField(max_length=50)
+class SumberPa(models.Model):
+    nama = models.CharField(max_length=50, unique=True)
 
     class Meta:
         verbose_name_plural = 'Sumber PA'
@@ -24,35 +24,44 @@ class SumberPA(models.Model):
 
 
 class Dikmilti(models.Model):
-    nama = models.CharField(max_length=50)
+    nama = models.CharField(max_length=50, unique=True)
 
 
-class DikbangSpes(models.Model):
-    nama = models.CharField(max_length=50)
+class Dikbangspes(models.Model):
+    nama = models.CharField(max_length=50, unique=True)
 
 
 class Personil(models.Model):
     nama = models.CharField(max_length=100)
     nrp = models.CharField(max_length=30)
-    tgl_lahir = models.DateField()
-    pangkat = models.ForeignKey(Pangkat, on_delete=models.CASCADE)
-    jabatan = models.ForeignKey(Jabatan, on_delete=models.CASCADE)
-    korps = models.ForeignKey(Korps, on_delete=models.CASCADE)
+    tgl_lahir = models.DateField(null=True, blank=True)
+    pangkat = models.ForeignKey(Pangkat, on_delete=models.CASCADE,
+                                null=True, blank=True)
+    jabatan = models.ForeignKey(Jabatan, on_delete=models.CASCADE,
+                                null=True, blank=True,
+                                related_name='personil')
+    korps = models.ForeignKey(Korps, on_delete=models.CASCADE,
+                              null=True, blank=True)
 
+    def __str__(self):
+        pangkat = self.pangkat.nama if self.pangkat is not None else None
+        return "{} {}".format(self.nama, pangkat)
 
-class PersonilSumberPA(models.Model):
-    personil = models.ForeignKey(Personil, on_delete=models.CASCADE)
-    sumber_pa = models.ForeignKey(SumberPA, on_delete=models.CASCADE)
+class PersonilSumberPa(models.Model):
+    personil = models.ForeignKey(Personil, on_delete=models.CASCADE,
+                                 related_name='personil_sumber_pa')
+    sumber_pa = models.ForeignKey(SumberPa, on_delete=models.CASCADE)
     tahun = models.IntegerField()
 
 
-class PersonilDikbangSpes(models.Model):
-    personil = models.ForeignKey(Personil, on_delete=models.CASCADE)
-    dikbangspes = models.ForeignKey(DikbangSpes, on_delete=models.CASCADE)
-    tahun = models.IntegerField()
+class PersonilDikbangspes(models.Model):
+    personil = models.ForeignKey(Personil, on_delete=models.CASCADE,
+                                 related_name='personil_dikbangspes')
+    dikbangspes = models.ForeignKey(Dikbangspes, on_delete=models.CASCADE)
 
 
 class PersonilDikmilti(models.Model):
-    personil = models.ForeignKey(Personil, on_delete=models.CASCADE)
+    personil = models.ForeignKey(Personil, on_delete=models.CASCADE,
+                                 related_name='personil_dikmilti')
     dikmilti = models.ForeignKey(Dikmilti, on_delete=models.CASCADE)
-    tahun = models.IntegerField()
+    tahun = models.IntegerField(null=True, blank=True)

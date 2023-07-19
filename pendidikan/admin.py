@@ -8,4 +8,4 @@ class SumberPaAdmin(admin.ModelAdmin):
     ordering = ('nama',)
 
 
-admin.site.register(models.SumberPA, SumberPaAdmin)
+admin.site.register(models.SumberPa, SumberPaAdmin)

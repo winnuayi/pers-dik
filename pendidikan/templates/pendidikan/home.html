@@ -3,4 +3,56 @@
 {% load static %}
 
 {% block content %}
+  <div class="container-fluid mt-4">
+    <div class="row">
+      <div class="col-9">
+        <p>Menampilkan <strong>{{ current_page.start_index|default:0 }} - {{ current_page.end_index|default:0 }}</strong> dari <strong>{{ current_page.paginator.count|default:0 }}</strong> data</p>
+      </div>
+      <div class="col-3">
+        <form method="get">
+          <div class="input-group input-group-sm mb-3">
+            <input type="text" class="form-control" name="q" value="{{ q }}" placeholder="Cari personil, pendidikan...">
+            <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Cari</button>
+          </div>
+        </form>
+        <!-- <button class="btn btn-sm btn-outline-secondary">Filter</button> -->
+      </div>
+    </div>
+
+    <table class="table table-sm">
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>Jabatan</th>
+          <th colspan="2">Pangkat</th>
+          <th>Nama</th>
+          <th>NRP</th>
+          <th>Sumber PA</th>
+          <th>Dikmilti</th>
+          <th>Dikbangspes</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for jabatan in current_page %}
+        <tr>
+          <td>{{ forloop.counter0|add:current_page.start_index }}</td>
+          <td>{{ jabatan.nama }}</td>
+          <td>{{ jabatan.personil.first.pangkat.nama }}</td>
+          <td>{{ jabatan.personil.first.korps.nama }}</td>
+          <td>{{ jabatan.personil.first.nama }}</td>
+          <td>{{ jabatan.personil.first.nrp }}</td>
+          <td>{{ jabatan.personil.first.personil_sumber_pa.first.sumber_pa.nama }} {{ jabatan.personil.first.personil_sumber_pa.first.tahun }}</td>
+          <td>{{ jabatan.personil.first.personil_dikmilti.first.dikmilti.nama }} {{ jabatan.personil.first.personil_dikmilti.first.tahun|default:'' }}</td>
+          <td>
+            {% for personil_dikbangspes in jabatan.personil.first.personil_dikbangspes.all %}
+              <div>{{ personil_dikbangspes.dikbangspes.nama }}</div>
+            {% endfor %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  {% include 'components/pagination/001-pagination.html' %}
 {% endblock %}
