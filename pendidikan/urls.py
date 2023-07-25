@@ -8,7 +8,8 @@ urlpatterns = [
     ############################################################################
     # VIEW
     ############################################################################
-    path('', pendidikan_views.HomeView.as_view(), name="home")
+    path('', pendidikan_views.HomeView.as_view(), name="home"),
+    path('personil/', pendidikan_views.PersonilListView.as_view(), name='personil')
 
     ############################################################################
     # API

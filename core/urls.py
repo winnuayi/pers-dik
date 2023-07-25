@@ -19,9 +19,14 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 
+from account.views.account_views import LoginView
+
+
 urlpatterns = [
     path("admin/", admin.site.urls),
 
     path("account/", include("account.urls")),
     path("pendidikan/", include("pendidikan.urls")),
+
+    path('', LoginView.as_view()),
 ]

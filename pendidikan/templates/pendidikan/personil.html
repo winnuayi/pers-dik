@@ -1,0 +1,37 @@
+{% extends 'components/base/001-base.html' %}
+
+{% load static %}
+
+{% block content %}
+  <div class="container-fluid mt-4">
+    <div class="row">
+      <div class="col-12">
+        <button class="btn btn-sm btn-success bi bi-plus-lg"> Tambah Personil</button>
+      </div>
+    </div>
+    <table class="table table-sm">
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>Nama</th>
+          <th>Pangkat</th>
+          <th>Jabatan</th>
+          <th>NRP</th>
+          <th>Tanggal Lahir</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for personil in current_page %}
+          <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ personil.nama }}</td>
+            <td>{{ personil.pangkat.nama }} {{ personil.korps.nama }}</td>
+            <td>{{ personil.jabatan.nama }}</td>
+            <td>{{ personil.nrp }}</td>
+            <td>{{ personil.tgl_lahir|date:'d-m-Y' }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

@@ -37,17 +37,20 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav">
             <li class="nav-item">
-              <a class="nav-link {{ home_active }}" aria-current="page" href="#">Home</a>
+              <a class="nav-link {{ home_active }}" aria-current="page" href="{% url 'pendidikan:home' %}">Jabatan</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {{ personil_active }}" aria-current="page" href="{% url 'pendidikan:personil' %}">Personil</a>
             </li>
             {% if request.user.is_staff %}
-              <li class="nav-item dropdown">
+              <!-- <li class="nav-item dropdown">
                 <a id="performance-dropdown-menu" class="nav-link dropdown-toggle {{ performance_active }}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Report</a>
                 <ul class="dropdown-menu" aria-labelledby="performance-dropdown-menu">
                   <li>
                     <a class="dropdown-item {{ insight_active }}" href="#">Insight</a>
                   </li>
                 </ul>
-              </li>
+              </li> -->
             {% endif %}
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">

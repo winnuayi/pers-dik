@@ -4,7 +4,7 @@
 
 {% block content %}
   <div class="container-fluid mt-4">
-    <div class="row">
+    <div class="row" style="align-items: center;">
       <div class="col-9">
         <p>Menampilkan <strong>{{ current_page.start_index|default:0 }} - {{ current_page.end_index|default:0 }}</strong> dari <strong>{{ current_page.paginator.count|default:0 }}</strong> data</p>
       </div>
@@ -33,23 +33,29 @@
         </tr>
       </thead>
       <tbody>
-        {% for jabatan in current_page %}
-        <tr>
-          <td>{{ forloop.counter0|add:current_page.start_index }}</td>
-          <td>{{ jabatan.nama }}</td>
-          <td>{{ jabatan.personil.first.pangkat.nama }}</td>
-          <td>{{ jabatan.personil.first.korps.nama }}</td>
-          <td>{{ jabatan.personil.first.nama }}</td>
-          <td>{{ jabatan.personil.first.nrp }}</td>
-          <td>{{ jabatan.personil.first.personil_sumber_pa.first.sumber_pa.nama }} {{ jabatan.personil.first.personil_sumber_pa.first.tahun }}</td>
-          <td>{{ jabatan.personil.first.personil_dikmilti.first.dikmilti.nama }} {{ jabatan.personil.first.personil_dikmilti.first.tahun|default:'' }}</td>
-          <td>
-            {% for personil_dikbangspes in jabatan.personil.first.personil_dikbangspes.all %}
-              <div>{{ personil_dikbangspes.dikbangspes.nama }}</div>
-            {% endfor %}
-          </td>
-        </tr>
-        {% endfor %}
+        {% if current_page %}
+          {% for jabatan in current_page %}
+          <tr>
+            <td>{{ forloop.counter0|add:current_page.start_index }}</td>
+            <td>{{ jabatan.nama }}</td>
+            <td>{{ jabatan.personil.first.pangkat.nama }}</td>
+            <td>{{ jabatan.personil.first.korps.nama }}</td>
+            <td>{{ jabatan.personil.first.nama }}</td>
+            <td>{{ jabatan.personil.first.nrp }}</td>
+            <td>{{ jabatan.personil.first.personil_sumber_pa.first.sumber_pa.nama }} {{ jabatan.personil.first.personil_sumber_pa.first.tahun }}</td>
+            <td>{{ jabatan.personil.first.personil_dikmilti.first.dikmilti.nama }} {{ jabatan.personil.first.personil_dikmilti.first.tahun|default:'' }}</td>
+            <td>
+              {% for personil_dikbangspes in jabatan.personil.first.personil_dikbangspes.all %}
+                <div>{{ personil_dikbangspes.dikbangspes.nama }}</div>
+              {% endfor %}
+            </td>
+          </tr>
+          {% endfor %}
+        {% else %}
+          <tr>
+            <td colspan="9" class="text-center">Tidak ada data</td>
+          </tr>
+        {% endif %}
       </tbody>
     </table>
   </div>

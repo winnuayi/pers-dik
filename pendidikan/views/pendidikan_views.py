@@ -5,7 +5,7 @@ from django.urls import reverse_lazy
 from django.views import View
 
 from core.helpers.paginations import Pagination
-from pendidikan.models import Jabatan
+from pendidikan.models import Jabatan, Personil
 
 
 class HomeView(Pagination, View):
@@ -26,6 +26,9 @@ class HomeView(Pagination, View):
         current_page = paginator.page(page)
 
         context = {
+            # menu
+            'home_active': 'active',
+
             # filter
             'rows': rows,
 
@@ -52,8 +55,37 @@ class HomeView(Pagination, View):
             q |= Q(nama__icontains=request.GET['q'])
             q |= Q(personil__pangkat__nama__icontains=request.GET['q'])
             q |= Q(personil__nama__icontains=request.GET['q'])
+            q |= Q(personil__nrp__icontains=request.GET['q'])
             q |= Q(personil__personil_sumber_pa__sumber_pa__nama__icontains=request.GET['q'])
             q |= Q(personil__personil_dikmilti__dikmilti__nama__icontains=request.GET['q'])
             # q |= Q(personil__personil_dikbangspes__dikbangspes__nama__icontains=request.GET['q'])
 
         return Jabatan.objects.filter(q)
+
+
+class PersonilListView(Pagination, View):
+    def get(self, request):
+        page = 1
+        if 'page' in request.GET:
+            page = int(request.GET['page'])
+
+        rows = 50
+        if 'rows' in request.GET:
+            rows = int(request.GET['rows'])
+
+        personil_list = self.get_personil_list()
+
+        paginator = Paginator(personil_list, rows)
+        current_page = paginator.page(page)
+
+
+        context = {
+            # menu
+            'personil_active': 'active',
+
+            'current_page': current_page,
+        }
+        return render(request, 'pendidikan/personil.html', context)
+
+    def get_personil_list(self):
+        return Personil.objects.all().order_by('nama')

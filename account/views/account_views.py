@@ -12,7 +12,7 @@ class LoginView(View):
     Gunakan account.backends.ExternalModelDatabase.
     """
 
-    REDIRECT_TO = reverse_lazy('project:home')
+    REDIRECT_TO = reverse_lazy('pendidikan:home')
 
     def get(self, request):
         # jika sudah terautentikasi, langsung redirect dari halaman login
