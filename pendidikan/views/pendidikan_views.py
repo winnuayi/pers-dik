@@ -95,9 +95,7 @@ class PersonilListView(Pagination, View):
 class PersonilCreateView(View):
     def get(self, request):
         pangkat_list = Pangkat.objects.all().order_by('counter')
-
         jabatan_list = Jabatan.objects.all().order_by('nama')
-
         korps_list = Korps.objects.all().order_by('nama')
 
         context = {
@@ -114,25 +112,63 @@ class PersonilCreateView(View):
         context = self.get_context(request)
 
         form = PersonilForm(request.POST)
-        print(request.POST)
+
         if not form.is_valid():
-            print(form.errors)
             context = self.get_error_context(context, request, form)
             return render(request, 'pendidikan/personil-form.html', context)
 
-        context = {}
+        form.save()
+
+        # TODO redirect ke update form/personil detail
+        
         return render(request, 'pendidikan/personil-form.html', context)
 
     def get_context(self, request):
         context = {
-            'form_title': 'Tambah Personil'
+            'form_title': 'Tambah Personil',
+
+            # populate dropdown
+            'pangkat_list': Pangkat.objects.all().order_by('counter'),
+            'jabatan_list': Jabatan.objects.all().order_by('nama'),
+            'korps_list': Korps.objects.all().order_by('nama'),
         }
 
         return context
 
     def get_error_context(self, context, request, form):
         context.update({
+            # render feedback message di setiap field
             'errors': form.errors,
+
+            # render global message
+            'message': "Isian tidak sesuai",
         })
+
+        # jika field nama sudah diisi, tetap tampilkan nama di placeholder
+        if 'nama' in request.POST:
+            context['nama'] = request.POST['nama']
+
+        # idem
+        if 'nrp' in request.POST:
+            context['nrp'] = request.POST['nrp']
+
+        # idem
+        if 'tgl_lahir' in request.POST:
+            context['tgl_lahir'] = request.POST['tgl_lahir']
+
+        # convert ke integer equal operator dropdown butuh integer
+        if 'pangkat' in request.POST:
+            context['selected_pangkat'] = int(request.POST['pangkat'])
+
+        # idem
+        if 'jabatan' in request.POST:
+            context['selected_jabatan'] = int(request.POST['jabatan'])
+
+        # idem
+        if 'korps' in request.POST:
+            context['selected_korps'] = int(request.POST['korps'])
+        
+        if '__all__' in form.errors:
+            context['message'] = form.errors['__all__'].as_text()
 
         return context
