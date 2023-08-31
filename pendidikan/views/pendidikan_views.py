@@ -5,7 +5,8 @@ from django.urls import reverse_lazy
 from django.views import View
 
 from core.helpers.paginations import Pagination
-from pendidikan.models import Jabatan, Personil
+from pendidikan.forms import PersonilForm
+from pendidikan.models import Jabatan, Korps, Pangkat, Personil
 
 
 class HomeView(Pagination, View):
@@ -85,7 +86,53 @@ class PersonilListView(Pagination, View):
 
             'current_page': current_page,
         }
-        return render(request, 'pendidikan/personil.html', context)
+        return render(request, 'pendidikan/personil-list.html', context)
 
     def get_personil_list(self):
         return Personil.objects.all().order_by('nama')
+
+
+class PersonilCreateView(View):
+    def get(self, request):
+        pangkat_list = Pangkat.objects.all().order_by('counter')
+
+        jabatan_list = Jabatan.objects.all().order_by('nama')
+
+        korps_list = Korps.objects.all().order_by('nama')
+
+        context = {
+            'form_title': "Tambah Personil",
+
+            'pangkat_list': pangkat_list,
+            'jabatan_list': jabatan_list,
+            'korps_list': korps_list,
+        }
+
+        return render(request, 'pendidikan/personil-form.html', context)
+
+    def post(self, request):
+        context = self.get_context(request)
+
+        form = PersonilForm(request.POST)
+        print(request.POST)
+        if not form.is_valid():
+            print(form.errors)
+            context = self.get_error_context(context, request, form)
+            return render(request, 'pendidikan/personil-form.html', context)
+
+        context = {}
+        return render(request, 'pendidikan/personil-form.html', context)
+
+    def get_context(self, request):
+        context = {
+            'form_title': 'Tambah Personil'
+        }
+
+        return context
+
+    def get_error_context(self, context, request, form):
+        context.update({
+            'errors': form.errors,
+        })
+
+        return context

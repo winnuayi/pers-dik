@@ -8,4 +8,9 @@ class SumberPaAdmin(admin.ModelAdmin):
     ordering = ('nama',)
 
 
+class PangkatAdmin(admin.ModelAdmin):
+    list_display = ('nama', 'counter',)
+    ordering = ('counter',)
+
+admin.site.register(models.Pangkat, PangkatAdmin)
 admin.site.register(models.SumberPa, SumberPaAdmin)

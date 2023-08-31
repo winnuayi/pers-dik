@@ -1,0 +1,140 @@
+{% extends 'components/base/001-base.html' %}
+
+{% load static %}
+
+{% block css %}
+  <link rel="stylesheet" type="text/css" href="{% static 'core/vendors/flatpickr/flatpickr.min.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'core/vendors/flatpickr/plugins/monthSelect/style.css' %}">
+
+  <style type="text/css">
+    body {
+      background-color: #f0f0f0;
+    }
+
+    .success-message {
+      background-color: forestgreen;
+      color: white;
+    }
+
+    .error-message {
+      background-color: indianred;
+      color: white;
+    }
+
+    #close-btn {
+      text-decoration: none;
+      color: white;
+    }
+
+    #review-form {
+      background-color: white;
+      padding: 30px;
+    }
+
+    #form-title {
+      margin-bottom: 20px;
+    }
+  </style>
+{% endblock %}
+
+{% block content %}
+  {% if message %}
+    <div id="notification-message" class="d-flex justify-content-between {% if errors %}error-message{% elif success %}success-message{% endif %}">
+      <div class="p-2"></div>
+      <div class="p-2">{{ message }}</div>
+      <div class="p-1"><a role="button" id="close-btn" class="btn btn-link btn-sm" href="#">X</a></div>
+    </div>
+  {% endif %}
+
+  <div class="container mt-5">
+    <div class="row mb-5">
+      <div class="col-12 col-md-2 col-lg-3"></div>
+
+      <div class="col-12 col-md-8 col-lg-6" id="review-form">
+        <h4 id="form-title">{{ form_title }}</h4>
+
+        <form method="post" class="row g-3">
+          {% csrf_token %}
+
+          <div class="col-12">
+            <label for="nama-input" class="form-label">Nama</label>
+            <input id="nama-input" type="text" name="nama" value="{{ nama }}" class="form-control {% if errors.nama %}is-invalid{% endif %}">
+            <div class="invalid-feedback">
+              {{ errors.nama.as_text }}
+            </div>
+          </div>
+
+          <div class="col-12">
+            <label for="nrp-input" class="form-label">NRP</label>
+            <input id="nrp-input" type="text" name="nrp" value="{{ nrp }}" class="form-control {% if errors.nrp %}is-invalid{% endif %}">
+            <div class="invalid-feedback">
+              {{ errors.nrp.as_text }}
+            </div>
+          </div>
+
+          <div class="col-12">
+            <label for="tgl-lahir-input" class="form-label">Tanggal Lahir</label>
+            <input id="tgl-lahir-input" type="text" name="tgl_lahir" value="{{ tgl_lahir }}" class="form-control {% if errors.tgl_lahir %}is-invalid{% endif %}">
+            <div class="invalid-feedback">
+              {{ errors.pangkat.as_text }}
+            </div>
+          </div>
+
+          <div class="col-12">
+            <label for="pangkat-dropdown" class="form-label">Pangkat</label>
+            <select class="form-select {% if errors.pangkat %}is-invalid{% endif %}" id="pangkat-dropdown" name="pangkat">
+              <option selected disabled>Pilih pangkat</option>
+              {% for pangkat in pangkat_list %}
+                <option value="{{ pangkat.id }}" {% if pangkat.id == selected_pangkat %}selected{% endif %}>{{ pangkat.nama }}</option>
+              {% endfor %}
+            </select>
+            <div class="invalid-feedback">
+              {{ errors.pangkat.as_text }}
+            </div>
+          </div>
+
+          <div class="col-12">
+            <label for="jabatan-dropdown" class="form-label">Jabatan</label>
+            <select class="form-select {% if errors.jabatan %}is-invalid{% endif %}" id="jabatan-dropdown" name="jabatan">
+              <option selected disabled>Pilih jabatan</option>
+              {% for jabatan in jabatan_list %}
+                <option value="{{ jabatan.id }}" {% if jabatan.id == selected_jabatan %}selected{% endif %}>{{ jabatan.nama }}</option>
+              {% endfor %}
+            </select>
+            <div class="invalid-feedback">
+              {{ errors.jabatan.as_text }}
+            </div>
+          </div>
+
+          <div class="col-12">
+            <label for="korps-dropdown" class="form-label">Korps</label>
+            <select class="form-select {% if errors.korps %}is-invalid{% endif %}" id="korps-dropdown" name="korps">
+              <option selected disabled>Pilih korps</option>
+              {% for korps in korps_list %}
+                <option value="{{ korps.id }}" {% if korps.id == selected_korps %}selected{% endif %}>{{ korps.nama }}</option>
+              {% endfor %}
+            </select>
+            <div class="invalid-feedback">
+              {{ errors.korps.as_text }}
+            </div>
+          </div>
+
+          <div class="col-12 text-end">
+            <a type="button" class="btn btn-link" href="{% url 'pendidikan:personil-list' %}" style="text-decoration: none;">Cancel</a>
+            <button type="submit" class="btn btn-success" id="submit-button">Submit</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="col-12 col-md-2 col-lg-3"></div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block javascript %}
+  <script type="text/javascript" src="{% static 'core/vendors/flatpickr/flatpickr.min.js' %}" ></script>
+
+  <script type="text/javascript">
+    flatpickr('#tgl-lahir-input', {})
+  </script>
+{% endblock %}

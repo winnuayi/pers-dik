@@ -3,6 +3,13 @@ from django.db import models
 
 class Pangkat(models.Model):
     nama = models.CharField(max_length=20, unique=True)
+    counter = models.SmallIntegerField(default=0)
+
+    class Meta:
+        verbose_name_plural = 'Pangkat'
+
+    def __str__(self):
+        return self.nama
 
 
 class Korps(models.Model):
@@ -46,6 +53,7 @@ class Personil(models.Model):
     def __str__(self):
         pangkat = self.pangkat.nama if self.pangkat is not None else None
         return "{} {}".format(self.nama, pangkat)
+
 
 class PersonilSumberPa(models.Model):
     personil = models.ForeignKey(Personil, on_delete=models.CASCADE,

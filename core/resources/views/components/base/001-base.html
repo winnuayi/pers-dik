@@ -11,8 +11,6 @@
     <link rel="shortcut icon" href="{% static 'core/img/favicon/favicon.ico' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'core/vendors/bootstrap-icons/bootstrap-icons.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'core/vendors/bootstrap/bootstrap.min.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'core/vendors/flatpickr/flatpickr.min.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'core/vendors/flatpickr/plugins/monthSelect/style.css' %}">
 
     <style type="text/css">
       @media(min-width: 576px) {
@@ -40,7 +38,7 @@
               <a class="nav-link {{ home_active }}" aria-current="page" href="{% url 'pendidikan:home' %}">Jabatan</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link {{ personil_active }}" aria-current="page" href="{% url 'pendidikan:personil' %}">Personil</a>
+              <a class="nav-link {{ personil_active }}" aria-current="page" href="{% url 'pendidikan:personil-list' %}">Personil</a>
             </li>
             {% if request.user.is_staff %}
               <!-- <li class="nav-item dropdown">
@@ -70,7 +68,6 @@
     {% block content %}{% endblock %}
 
     <script type="text/javascript" src="{% static 'core/vendors/bootstrap/bootstrap.bundle.min.js' %}" ></script>
-    <script type="text/javascript" src="{% static 'core/vendors/chart.js/chart.min.js' %}" ></script>
 
     {% block javascript %}{% endblock %}
   </body>

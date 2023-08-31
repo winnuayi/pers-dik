@@ -1,6 +1,7 @@
 *.pyc
 db.sqlite3
 package-lock.json
+pers.sql
 /account/migrations/
 /account/static/
 /core/config.py
